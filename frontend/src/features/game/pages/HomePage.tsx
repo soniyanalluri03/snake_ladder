@@ -191,95 +191,109 @@ const handleDiceRoll = async (value: number) => {
 
   const activePlayer = players[activePlayerIndex]
 
-  return (
-    <main className="min-h-screen bg-slate-950 p-3 sm:p-6">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-4 rounded-2xl bg-white p-4 shadow-2xl sm:p-6">
+  
+return (
+  <main className="h-screen overflow-hidden bg-slate-950 p-3">
+    <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-3">
 
-        <h1 className="text-3xl font-extrabold text-orange-500">
+      {/* Top bar */}
+      <header className="flex shrink-0 items-center justify-between gap-3">
+        <h1 className="text-2xl font-extrabold text-orange-500 sm:text-3xl">
           Snake & Ladders
         </h1>
 
-        <p className="text-center text-slate-600">
-          First player to reach square 100 wins!
-        </p>
+        <div className="flex items-center gap-3">
+          {!winner && (
+            <p className="text-sm font-bold text-white sm:text-base">
+              {activePlayer.name}'s Turn
+            </p>
+          )}
 
-        {/* Player status */}
-        <div className="flex w-full flex-wrap justify-center gap-2">
-          {players.map((player, index) => (
-            <div
-              key={player.id}
-              className={`rounded-lg border-2 p-2 text-center ${
-                activePlayerIndex === index && !winner
-                  ? 'border-orange-500 bg-orange-50'
-                  : 'border-slate-200 bg-white'
-              }`}
-            >
-              <span
-                className="mx-auto mb-1 block h-5 w-5 rounded-full"
-                style={{ backgroundColor: player.color }}
-              />
+          <Button
+            variant="outline"
+            onClick={restartGame}
+            disabled={isRolling}
+          >
+            Restart
+          </Button>
+        </div>
+      </header>
 
-              <p className="text-xs font-bold text-slate-800">
+      {/* Player status */}
+      <div className="flex shrink-0 flex-wrap justify-center gap-2">
+        {players.map((player, index) => (
+          <div
+            key={player.id}
+            className={`flex items-center gap-2 rounded-lg border px-3 py-2 ${
+              activePlayerIndex === index && !winner
+                ? 'border-orange-500 bg-orange-500/15'
+                : 'border-slate-700 bg-slate-900'
+            }`}
+          >
+            <span
+              className="h-4 w-4 rounded-full"
+              style={{ backgroundColor: player.color }}
+            />
+
+            <div>
+              <p className="text-xs font-bold text-white">
                 {player.name}
               </p>
-
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-slate-400">
                 Square {player.position}
               </p>
             </div>
-          ))}
-        </div>
-
-        <div className="w-full">
-          <GameBoard players={players} />
-        </div>
-
-        {winner ? (
-          <div className="rounded-xl bg-green-100 p-4 text-center">
-            <h2 className="text-2xl font-bold text-green-700">
-              🏆 {winner.name} Wins!
-            </h2>
-            <p className="mt-1 text-green-800">
-              Congratulations! You reached square 100.
-            </p>
           </div>
-        ) : (
-          <>
-            <div className="text-center">
-              <p className="font-bold text-slate-800">
-                {activePlayer.name}'s Turn
-              </p>
-
-              <Dice
-                title="Roll the Dice"
-                onRoll={handleDiceRoll}
-                disabled={isRolling}
-              />
-
-              <p className="mt-2 font-bold text-slate-800">
-                Dice Result: {diceValue}
-              </p>
-            </div>
-
-            {isRolling && (
-              <p className="animate-pulse text-sm font-semibold text-orange-500">
-                {activePlayer.name} is moving...
-              </p>
-            )}
-          </>
-        )}
-
-        <Button
-          variant="outline"
-          onClick={restartGame}
-          disabled={isRolling}
-        >
-          Restart Game
-        </Button>
-
+        ))}
       </div>
-    </main>
-  )
+
+      {/* Board and dice */}
+      
+{/* Board and dice */}
+<section className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5 lg:gap-8">
+
+  {/* Game board */}
+  <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center">
+    <div className="w-[min(78vw,620px)] sm:w-[min(62vh,620px)]">
+      <GameBoard players={players} />
+    </div>
+  </div>
+
+  {/* Dice panel */}
+  <aside className="flex shrink-0 flex-col items-center justify-center gap-3 sm:w-32 lg:w-40">
+    {winner ? (
+      <div className="text-center">
+        <h2 className="text-lg font-bold text-green-400">
+          🏆 {winner.name} Wins!
+        </h2>
+        <p className="mt-2 text-sm text-slate-300">
+          Congratulations! You reached square 100.
+        </p>
+      </div>
+    ) : (
+      <>
+        <Dice
+          title="Your Dice"
+          diceValue={diceValue}
+          onRoll={handleDiceRoll}
+          disabled={isRolling}
+        />
+
+        {isRolling && (
+          <p className="animate-pulse text-center text-xs font-semibold text-orange-400">
+            {activePlayer.name} is moving...
+          </p>
+        )}
+      </>
+    )}
+  </aside>
+</section>
+
+
+    </div>
+  </main>
+)
+
 }
 
 export default HomePage

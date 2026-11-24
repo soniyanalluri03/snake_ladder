@@ -1,14 +1,18 @@
 
 export const snakes: Record<number, number> = {
-  27: 3,
-  40: 3,
-  54: 31,
-  89: 53,
+  97: 56,
+  92: 55,
+  70: 31,
+  57: 19,
+  37: 5,
+  33: 10,
 }
 
 export const ladders: Record<number, number> = {
-  4: 25,
-  13: 46,
-  33: 49,
-  42: 63,
+  62: 81,
+  40: 77,
+  74: 96,
+  48: 91,
+  34: 66,
+  7: 45,
 }
